@@ -7,17 +7,15 @@ import com.bigbass1997.intelsim.world.Boid;
 
 public class SwarmUtil {
 	
-	public static void updatePositions(ArrayList<Boid> boids){
-		for(Boid boid : boids){
-			Vector2[] vs = calculateRules(boids, boid);
-			
-			boid.vel.x += ((vs[0].x * 1.25f) + (vs[1].x * 1.0f) + (vs[2].x * 1.0f));
-			boid.vel.y += ((vs[0].y * 1.25f) + (vs[1].y * 1.0f) + (vs[2].y * 1.0f));
-			
-			boid.vel.nor();
-			boid.vel.x *= 150;
-			boid.vel.y *= 150;
-		}
+	public static void updatePositions(Boid boid, ArrayList<Boid> boids){
+		Vector2[] vs = calculateRules(boids, boid);
+		
+		boid.vel.x += ((vs[0].x * 1.25f) + (vs[1].x * 1.0f) + (vs[2].x * 1.0f));
+		boid.vel.y += ((vs[0].y * 1.25f) + (vs[1].y * 1.0f) + (vs[2].y * 1.0f));
+		
+		boid.vel.nor();
+		boid.vel.x *= 300;
+		boid.vel.y *= 300;
 	}
 	
 	private static Vector2[] calculateRules(ArrayList<Boid> boids, Boid checkedBoid){

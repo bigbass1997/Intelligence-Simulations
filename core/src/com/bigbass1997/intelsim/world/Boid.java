@@ -52,8 +52,8 @@ public class Boid {
 		vel.x += acc.x;
 		vel.y += acc.y;
 		
-		pos.x += vel.x * delta * 2;
-		pos.y += vel.y * delta * 2;
+		pos.x += vel.x * delta;
+		pos.y += vel.y * delta;
 		
 		float dif = 0;
 		

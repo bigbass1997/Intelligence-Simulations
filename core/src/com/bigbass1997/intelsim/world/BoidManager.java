@@ -18,9 +18,9 @@ public class BoidManager {
 	
 	public void update(float delta){
 		for(Boid boid : boids){
-			boid.update(delta);
+			SwarmUtil.updatePositions(boid, boids);
 			
-			SwarmUtil.updatePositions(boids);
+			boid.update(delta);
 		}
 	}
 	
