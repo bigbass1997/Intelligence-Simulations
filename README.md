@@ -1,3 +1,4 @@
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/078dfe8e34684350bed979bfc837c64b)](https://www.codacy.com/app/bigbass1997-website/Intelligence-Simulations?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=bigbass1997/Intelligence-Simulations&amp;utm_campaign=Badge_Grade)
 _Intelligence-Simulations_
 ------
 __Description__  
