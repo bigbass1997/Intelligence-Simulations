@@ -3,8 +3,10 @@ package com.bigbass1997.intelsim.world;
 import java.util.Random;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Vector2;
 import com.bigbass1997.intelsim.states.StateSwarmSim;
 
@@ -38,6 +40,22 @@ public class Boid {
 	}
 	
 	public void render(ShapeRenderer sr){
+		if(Gdx.input.isKeyPressed(Keys.D)){
+			sr.setColor(0, 1, 0, 1);
+			sr.rectLine(pos.x, pos.y, pos.x + (vel.x), pos.y, 2);
+			sr.setColor(0, 0, 1, 1);
+			sr.rectLine(pos.x, pos.y, pos.x, pos.y + (vel.y), 2);
+		}
+
+		if(Gdx.input.isKeyPressed(Keys.SPACE)){
+			ShapeType prev = sr.getCurrentType();
+			sr.set(ShapeType.Line);
+			sr.setColor(1,1,1,1);
+			sr.circle(pos.x, pos.y, maxBound, 30);
+			sr.circle(pos.x, pos.y, minBound, 30);
+			sr.set(prev);
+		}
+		
 		sr.setColor(1, 1, 1, 0.2f);
 		sr.rectLine(pos.x, pos.y, pos.x + (vel.nor().x * (radius + 8)), pos.y + (vel.nor().y * (radius + 8)), 2);
 		
