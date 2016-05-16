@@ -70,12 +70,12 @@ public class StateSwarmSim extends State {
 			float mx = input.getX();
 			float my = -input.getY() + Gdx.graphics.getHeight();
 			
-			boidManager.boids.add(new Boid(mx, my, rand.nextInt(5000)-2500, rand.nextInt(5000)-2500, rand.nextInt(10) + 1));
+			boidManager.boids.add(new Boid(mx, my, rand.nextInt(5000)-2500, rand.nextInt(5000)-2500, rand.nextInt(10) + 6));
 		} else if(input.isKeyPressed(Keys.N)){
 			float mx = input.getX();
 			float my = -input.getY() + Gdx.graphics.getHeight();
 			
-			boidManager.boids.add(new Boid(mx, my, rand.nextInt(5000)-2500, rand.nextInt(5000)-2500, rand.nextInt(10) + 1));
+			boidManager.boids.add(new Boid(mx, my, rand.nextInt(5000)-2500, rand.nextInt(5000)-2500, rand.nextInt(10) + 6));
 		} else if(input.isKeyPressed(Keys.B)){
 			boidManager.boids.add(new Boid(rand.nextInt((int) cam.viewportWidth), rand.nextInt((int) cam.viewportHeight), (rand.nextInt(5000)-2500) * 10, (rand.nextInt(5000)-2500) * 10, rand.nextInt(10) + 6));
 		}
