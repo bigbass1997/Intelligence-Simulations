@@ -3,7 +3,7 @@ package com.bigbass1997.intelsim.util;
 import java.util.ArrayList;
 
 import com.badlogic.gdx.math.Vector2;
-import com.bigbass1997.intelsim.world.Boid;
+import com.bigbass1997.intelsim.world.swarm.Boid;
 
 public class SwarmUtil {
 	

@@ -1,4 +1,4 @@
-package com.bigbass1997.intelsim.world;
+package com.bigbass1997.intelsim.world.swarm;
 
 import java.util.Random;
 

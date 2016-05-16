@@ -11,9 +11,9 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.bigbass1997.intelsim.skins.SkinManager;
-import com.bigbass1997.intelsim.world.Boid;
-import com.bigbass1997.intelsim.world.BoidManager;
 import com.bigbass1997.intelsim.world.World;
+import com.bigbass1997.intelsim.world.swarm.Boid;
+import com.bigbass1997.intelsim.world.swarm.BoidManager;
 
 public class StateSwarmSim extends State {
 
