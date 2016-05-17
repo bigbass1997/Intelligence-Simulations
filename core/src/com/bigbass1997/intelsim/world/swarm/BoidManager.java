@@ -2,6 +2,7 @@ package com.bigbass1997.intelsim.world.swarm;
 
 import java.util.ArrayList;
 
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.bigbass1997.intelsim.util.SwarmUtil;
 
@@ -9,7 +10,11 @@ public class BoidManager {
 	
 	public ArrayList<Boid> boids;
 	
-	public BoidManager(){
+	private Camera cam;
+	
+	public BoidManager(Camera cam){
+		this.cam = cam;
+		
 		boids = new ArrayList<Boid>();
 	}
 	
@@ -17,7 +22,7 @@ public class BoidManager {
 		for(Boid boid : boids){
 			SwarmUtil.updatePositions(boid, boids);
 			
-			boid.update(delta);
+			boid.update(delta, cam.viewportWidth, cam.viewportHeight);
 		}
 	}
 	

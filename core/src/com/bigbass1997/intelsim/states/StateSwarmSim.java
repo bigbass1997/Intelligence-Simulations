@@ -25,18 +25,12 @@ public class StateSwarmSim extends State {
 	
 	private Random rand = new Random();
 	
-	public static float tmpCamViewpointWidth;
-	public static float tmpCamViewpointHeight;
-	
 	public StateSwarmSim(String id){
 		super(id);
 		
 		cam = new OrthographicCamera(Gdx.graphics.getWidth() * 2, Gdx.graphics.getHeight() * 2);
 		cam.position.set(cam.viewportWidth / 2f, cam.viewportHeight / 2f, 0);
 		cam.update();
-		
-		StateSwarmSim.tmpCamViewpointWidth = cam.viewportWidth;
-		StateSwarmSim.tmpCamViewpointHeight = cam.viewportHeight;
 		
         world = new World(cam);
         
@@ -49,7 +43,7 @@ public class StateSwarmSim extends State {
 		sr.setAutoShapeType(true);
 		sr.setProjectionMatrix(cam.combined);
 		
-		boidManager = new BoidManager();
+		boidManager = new BoidManager(cam);
 	}
 	
 	@Override

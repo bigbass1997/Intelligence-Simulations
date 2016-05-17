@@ -63,10 +63,7 @@ public class Boid {
 		sr.circle(pos.x, pos.y, radius, 30);
 	}
 	
-	public void update(float delta){
-		int swidth = (int) StateSwarmSim.tmpCamViewpointWidth;
-		int sheight = (int) StateSwarmSim.tmpCamViewpointHeight;
-		
+	public void update(float delta, float screenWidth, float screenHeight){
 		vel.x += acc.x;
 		vel.y += acc.y;
 		
@@ -75,19 +72,15 @@ public class Boid {
 		
 		float dif = 0;
 		
-		if(pos.x > swidth - dif) pos.x = dif;
-		if(pos.x < dif) pos.x = swidth - dif;
+		if(pos.x > screenWidth - dif) pos.x = dif;
+		if(pos.x < dif) pos.x = screenWidth - dif;
 		
-		if(pos.y > sheight - dif) pos.y = dif;
-		if(pos.y < dif) pos.y = sheight - dif;
+		if(pos.y > screenHeight - dif) pos.y = dif;
+		if(pos.y < dif) pos.y = screenHeight - dif;
 	}
 	
 	public boolean equals(Boid b){
-		if(b == this){
-			return true;
-		}
-		
-		if(b.id.equals(this.id)){
+		if(b == this || b.id.equals(this.id)){
 			return true;
 		}
 		
