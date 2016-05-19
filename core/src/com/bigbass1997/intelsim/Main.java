@@ -7,8 +7,8 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.GL20;
 import com.bigbass1997.gdxfontmanager.FontManager;
 import com.bigbass1997.intelsim.ScreenshotFactory;
+import com.bigbass1997.intelsim.states.StateMainMenu;
 import com.bigbass1997.intelsim.states.StateManager;
-import com.bigbass1997.intelsim.states.StateSwarmSim;
 
 public class Main extends ApplicationAdapter {
 	
@@ -20,7 +20,7 @@ public class Main extends ApplicationAdapter {
 	public void create () {
 		FontManager.addFont("fonts/computer.ttf", new int[]{16}); //Added font to be used with Debug Text
 		
-		stateManager = new StateManager(new StateSwarmSim("MainMenu"));
+		stateManager = new StateManager(new StateMainMenu("MainMenu"));
 	}
 
 	@Override
