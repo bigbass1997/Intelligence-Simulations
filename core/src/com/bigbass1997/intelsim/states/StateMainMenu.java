@@ -1,12 +1,17 @@
 package com.bigbass1997.intelsim.states;
 
+import java.util.concurrent.Callable;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.utils.Align;
 import com.bigbass1997.intelsim.skins.SkinManager;
+import com.bigbass1997.intelsim.world.ButtonInvokable;
 import com.bigbass1997.intelsim.world.World;
 
 public class StateMainMenu extends State {
@@ -17,6 +22,9 @@ public class StateMainMenu extends State {
 	
 	private float scalar = 3f;
 	
+	public Table menu;
+	public ButtonInvokable button;
+	
 	public StateMainMenu(String id){
 		super(id);
 		
@@ -26,14 +34,30 @@ public class StateMainMenu extends State {
 		
         world = new World(cam);
         
-		stage = new Stage();
+        stage = new Stage();
 		
+		menu = new Table(SkinManager.getSkin("fonts/computer.ttf", 20));
+		menu.setPosition((Gdx.graphics.getWidth() / 2) - 100, 50);
+		menu.setSize(200, 400);
+		menu.align(Align.top);
+		stage.addActor(menu);
+		
+        button = new ButtonInvokable("TEST", SkinManager.getSkin("fonts/computer.ttf", 20), (new Callable<Object>(){
+			@Override
+			public Object call() throws Exception {
+				System.out.println("Button has been invoked by clicking it!");
+				return null;
+			}}));
+		menu.add(button).width(menu.getWidth());
+        
 		infoLabel = new Label("", SkinManager.getSkin("fonts/computer.ttf", 24));
 		stage.addActor(infoLabel);
 		
 		sr = new ShapeRenderer(50000);
 		sr.setAutoShapeType(true);
 		sr.setProjectionMatrix(cam.combined);
+		
+		Gdx.input.setInputProcessor(stage);
 	}
 	
 	@Override
