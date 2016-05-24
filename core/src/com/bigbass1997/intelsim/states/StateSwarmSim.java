@@ -25,8 +25,8 @@ public class StateSwarmSim extends State {
 	
 	private Random rand = new Random();
 	
-	public StateSwarmSim(String id){
-		super(id);
+	public StateSwarmSim(String id, final StateManager managerRef){
+		super(id, managerRef);
 		
 		cam = new OrthographicCamera(Gdx.graphics.getWidth() * 2, Gdx.graphics.getHeight() * 2);
 		cam.position.set(cam.viewportWidth / 2f, cam.viewportHeight / 2f, 0);

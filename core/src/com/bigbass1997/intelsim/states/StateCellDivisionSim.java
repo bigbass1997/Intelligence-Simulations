@@ -17,8 +17,8 @@ public class StateCellDivisionSim extends State {
 
 	private float scalar = 3f;
 	
-	public StateCellDivisionSim(String id){
-		super(id);
+	public StateCellDivisionSim(String id, final StateManager managerRef){
+		super(id, managerRef);
 		
 		cam = new OrthographicCamera(Gdx.graphics.getWidth() * scalar, Gdx.graphics.getHeight() * scalar);
 		cam.position.set(cam.viewportWidth / 2, cam.viewportHeight / 2, 0);

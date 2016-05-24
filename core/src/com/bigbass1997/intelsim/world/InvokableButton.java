@@ -5,11 +5,11 @@ import java.util.concurrent.Callable;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 
-public class ButtonInvokable extends TextButton{
+public class InvokableButton extends TextButton{
 	
 	public Callable<?> clickCallback;
 	
-	public ButtonInvokable(String text, Skin skin, Callable<?> callable){
+	public InvokableButton(String text, Skin skin, Callable<?> callable){
 		super(text, skin);
 		this.clickCallback = callable;
 		this.toggle();

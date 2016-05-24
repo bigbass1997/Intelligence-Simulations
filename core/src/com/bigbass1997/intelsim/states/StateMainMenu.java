@@ -11,7 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
 import com.bigbass1997.intelsim.skins.SkinManager;
-import com.bigbass1997.intelsim.world.ButtonInvokable;
+import com.bigbass1997.intelsim.world.InvokableButton;
 import com.bigbass1997.intelsim.world.World;
 
 public class StateMainMenu extends State {
@@ -23,10 +23,9 @@ public class StateMainMenu extends State {
 	private float scalar = 3f;
 	
 	public Table menu;
-	public ButtonInvokable button;
 	
-	public StateMainMenu(String id){
-		super(id);
+	public StateMainMenu(String id, final StateManager managerRef){
+		super(id, managerRef);
 		
 		cam = new OrthographicCamera(Gdx.graphics.getWidth() * scalar, Gdx.graphics.getHeight() * scalar);
 		cam.position.set(cam.viewportWidth / 2, cam.viewportHeight / 2, 0);
@@ -36,20 +35,30 @@ public class StateMainMenu extends State {
         
         stage = new Stage();
 		
-		menu = new Table(SkinManager.getSkin("fonts/computer.ttf", 20));
-		menu.setPosition((Gdx.graphics.getWidth() / 2) - 100, 50);
-		menu.setSize(200, 400);
+		menu = new Table(SkinManager.getSkin("fonts/computer.ttf", 2));
+		menu.setSize(240, 400);
+		menu.setPosition((Gdx.graphics.getWidth() / 2) - (menu.getWidth() / 2), 50);
 		menu.align(Align.top);
 		stage.addActor(menu);
 		
-        button = new ButtonInvokable("TEST", SkinManager.getSkin("fonts/computer.ttf", 20), (new Callable<Object>(){
+        menu.add(new InvokableButton("Swarm Simulation", SkinManager.getSkin("fonts/computer.ttf", 24), (new Callable<Object>(){
 			@Override
 			public Object call() throws Exception {
-				System.out.println("Button has been invoked by clicking it!");
+				managerRef.setCurState(new StateSwarmSim("SwarmSim1", managerRef));
 				return null;
-			}}));
-		menu.add(button).width(menu.getWidth());
+			}
+		}))).width(menu.getWidth()).height(36);
         
+        menu.row();
+        
+        menu.add(new InvokableButton("Cell Division Simulation", SkinManager.getSkin("fonts/computer.ttf", 24), (new Callable<Object>(){
+			@Override
+			public Object call() throws Exception {
+				managerRef.setCurState(new StateCellDivisionSim("CellDivisionSim1", managerRef));
+				return null;
+			}
+		}))).width(menu.getWidth()).height(36);
+		
 		infoLabel = new Label("", SkinManager.getSkin("fonts/computer.ttf", 24));
 		stage.addActor(infoLabel);
 		

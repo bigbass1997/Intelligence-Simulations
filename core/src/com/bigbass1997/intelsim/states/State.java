@@ -10,14 +10,25 @@ public class State {
 	public Camera cam;
 	public World world;
 	public Stage stage;
-	
+	public final StateManager managerRef;
+
 	/**
 	 * State constructor.
 	 * 
 	 * @param id any string to be used to identify the State
 	 */
 	public State(String id){
+		this(id, null);
+	}
+	
+	/**
+	 * State constructor.
+	 * 
+	 * @param id any string to be used to identify the State
+	 */
+	public State(String id, StateManager managerRef){
 		this.id = id;
+		this.managerRef = managerRef;
 	}
 	
 	/**
