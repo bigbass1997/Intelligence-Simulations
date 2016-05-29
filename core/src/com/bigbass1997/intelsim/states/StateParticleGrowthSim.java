@@ -1,13 +1,14 @@
 package com.bigbass1997.intelsim.states;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.bigbass1997.intelsim.skins.SkinManager;
+import com.bigbass1997.intelsim.util.ScrollwheelInputAdapter;
 import com.bigbass1997.intelsim.world.World;
 import com.bigbass1997.intelsim.world.particlegrowth.Particle;
 
@@ -39,12 +40,30 @@ public class StateParticleGrowthSim extends State {
 		sr.setAutoShapeType(true);
 		sr.setProjectionMatrix(cam.combined);
 		
-		testParticle = new Particle(50, 50, 10, 10, 0xFFFFFFFF, Particle.SHAPE.SQUARE, true);
+		testParticle = new Particle(50, 50, 25, 25, 0xFFFFFFFF, Particle.SHAPE.SQUARE, true);
+		
+		InputMultiplexer multInput = new InputMultiplexer();
+		multInput.addProcessor(stage);
+		multInput.addProcessor(new ScrollwheelInputAdapter(){
+			@Override
+			public boolean scrolled(int amount) {
+				if(amount == 1){
+					changeCameraViewport(0.05f);
+				} else if(amount == -1){
+					changeCameraViewport(-0.05f);
+				}
+				return true;
+			}
+		});
+		
+		Gdx.input.setInputProcessor(multInput);
 	}
 	
 	@Override
 	public void render() {
 		sr.begin(ShapeType.Line);
+		sr.rect(0, 0, cam.viewportWidth, cam.viewportHeight);
+		
 		testParticle.render(sr);
 		sr.end();
 		
@@ -54,13 +73,6 @@ public class StateParticleGrowthSim extends State {
 	
 	@Override
 	public void update(float delta) {
-		if(Gdx.input.isKeyPressed(Keys.UP)){
-			changeCameraViewport(0.01f);
-		}
-		if(Gdx.input.isKeyPressed(Keys.DOWN)){
-			changeCameraViewport(-0.01f);
-		}
-		
 		testParticle.update(delta, cam);
 		
 		String n = "\n";
@@ -80,10 +92,9 @@ public class StateParticleGrowthSim extends State {
 		
 		cam.viewportWidth = Gdx.graphics.getWidth() * scalar;
 		cam.viewportHeight = Gdx.graphics.getHeight() * scalar;
+		cam.position.set(cam.viewportWidth / 2, cam.viewportHeight / 2, 0);
 		cam.update();
 
 		sr.setProjectionMatrix(cam.combined);
-		
-		System.out.println(scalar + " | " + cam.viewportWidth + " | " + cam.viewportHeight);
 	}
 }

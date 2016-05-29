@@ -49,6 +49,7 @@ public class Particle {
 			
 			break;
 		}
+		sr.identity();
 	}
 	
 	public void update(float delta, Camera cam){
@@ -57,17 +58,17 @@ public class Particle {
 		pos.x += vel.x * delta;
 		pos.y += vel.y * delta;
 		
-		if(pos.x < 0){
+		if(pos.x < 0 && vel.x < 0){
 			pos.x = cam.viewportWidth;
 		}
-		if(pos.x > cam.viewportWidth){
+		if(pos.x > cam.viewportWidth && vel.x > 0){
 			pos.x = 0;
 		}
 		
-		if(pos.y < 0){
+		if(pos.y < 0 && vel.y < 0){
 			pos.y = cam.viewportHeight;
 		}
-		if(pos.y > cam.viewportHeight){
+		if(pos.y > cam.viewportHeight && vel.y > 0){
 			pos.y = 0;
 		}
 	}
