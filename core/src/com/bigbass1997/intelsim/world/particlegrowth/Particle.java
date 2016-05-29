@@ -1,5 +1,9 @@
 package com.bigbass1997.intelsim.world.particlegrowth;
 
+import java.util.Random;
+
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -13,6 +17,12 @@ public class Particle {
 	
 	public enum SHAPE {
 		SQUARE, TRIANGLE, CIRCLE;
+		
+		public static SHAPE random(){
+			int val = (new Random()).nextInt(SHAPE.values().length);
+			
+			return SHAPE.values()[val];
+		}
 	}
 
 	public Vector2 pos, vel;
@@ -40,7 +50,7 @@ public class Particle {
 		sr.translate(-(pos.x + (level / 2f)), -(pos.y + (level / 2f)), 0);
 		switch(shape){
 		case SQUARE:
-			sr.rect(pos.x, pos.y, level, level);
+			sr.rect(pos.x - (level / 2), pos.y - (level / 2), level, level);
 			break;
 		case TRIANGLE:
 			sr.triangle(
@@ -53,6 +63,12 @@ public class Particle {
 			sr.circle(pos.x, pos.y, level / 2);
 			break;
 		}
+		
+		if(Gdx.input.isKeyPressed(Keys.D)){
+			sr.setColor(Color.CYAN);
+			sr.line(pos.x, pos.y, pos.x, pos.y + level);
+		}
+		
 		sr.identity();
 	}
 	

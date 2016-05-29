@@ -11,6 +11,7 @@ import com.bigbass1997.intelsim.skins.SkinManager;
 import com.bigbass1997.intelsim.util.ScrollwheelInputAdapter;
 import com.bigbass1997.intelsim.world.World;
 import com.bigbass1997.intelsim.world.particlegrowth.Particle;
+import com.bigbass1997.intelsim.world.particlegrowth.ParticleManager;
 
 public class StateParticleGrowthSim extends State {
 
@@ -20,7 +21,7 @@ public class StateParticleGrowthSim extends State {
 
 	private float scalar = 0.5f;
 	
-	private Particle testParticle;
+	private ParticleManager particleManager;
 	
 	public StateParticleGrowthSim(String id, final StateManager managerRef){
 		super(id, managerRef);
@@ -40,7 +41,11 @@ public class StateParticleGrowthSim extends State {
 		sr.setAutoShapeType(true);
 		sr.setProjectionMatrix(cam.combined);
 		
-		testParticle = new Particle(50, 50, 25, 25, 0xFFFFFFFF, Particle.SHAPE.SQUARE, true);
+		particleManager = new ParticleManager();
+		
+		for(int i = 0; i < 500; i++){
+			particleManager.addRandomParticle(0xFFFFFFFF, cam);
+		}
 		
 		InputMultiplexer multInput = new InputMultiplexer();
 		multInput.addProcessor(stage);
@@ -64,7 +69,7 @@ public class StateParticleGrowthSim extends State {
 		sr.begin(ShapeType.Line);
 		sr.rect(0, 0, cam.viewportWidth, cam.viewportHeight);
 		
-		testParticle.render(sr);
+		particleManager.render(sr);
 		sr.end();
 		
 		world.render();
@@ -73,7 +78,7 @@ public class StateParticleGrowthSim extends State {
 	
 	@Override
 	public void update(float delta) {
-		testParticle.update(delta, cam);
+		particleManager.update(delta, cam);
 		
 		String n = "\n";
 		String info = 
