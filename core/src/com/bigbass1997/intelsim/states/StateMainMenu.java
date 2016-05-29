@@ -20,7 +20,7 @@ public class StateMainMenu extends State {
 	
 	private Label infoLabel;
 	
-	private float scalar = 3f;
+	private float scalar = 1f;
 	
 	public Table menu;
 	
@@ -35,7 +35,7 @@ public class StateMainMenu extends State {
         
         stage = new Stage();
 		
-		menu = new Table(SkinManager.getSkin("fonts/computer.ttf", 2));
+		menu = new Table(SkinManager.getSkin("fonts/computer.ttf", 24));
 		menu.setSize(240, 400);
 		menu.setPosition((Gdx.graphics.getWidth() / 2) - (menu.getWidth() / 2), 50);
 		menu.align(Align.top);
@@ -45,6 +45,16 @@ public class StateMainMenu extends State {
 			@Override
 			public Object call() throws Exception {
 				managerRef.setCurState(new StateSwarmSim("SwarmSim1", managerRef));
+				return null;
+			}
+		}))).width(menu.getWidth()).height(36);
+
+        menu.row();
+        
+        menu.add(new InvokableButton("Partical Growth Simulation", SkinManager.getSkin("fonts/computer.ttf", 24), (new Callable<Object>(){
+			@Override
+			public Object call() throws Exception {
+				managerRef.setCurState(new StateParticleGrowthSim("ParticleGrowthSim1", managerRef));
 				return null;
 			}
 		}))).width(menu.getWidth()).height(36);
