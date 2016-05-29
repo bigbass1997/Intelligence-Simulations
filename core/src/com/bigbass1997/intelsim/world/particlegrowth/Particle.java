@@ -43,17 +43,21 @@ public class Particle {
 			sr.rect(pos.x, pos.y, level, level);
 			break;
 		case TRIANGLE:
-			
+			sr.triangle(
+					pos.x - (level / 2), pos.y - (level / 2),
+					pos.x + (level / 2), pos.y - (level / 2),
+					pos.x, pos.y + (level / 2)
+			);
 			break;
 		case CIRCLE:
-			
+			sr.circle(pos.x, pos.y, level / 2);
 			break;
 		}
 		sr.identity();
 	}
 	
 	public void update(float delta, Camera cam){
-		rotation = MathUtils.atan2(vel.y, vel.x) * MathUtils.radiansToDegrees;
+		rotation = (MathUtils.atan2(vel.y, vel.x) * MathUtils.radiansToDegrees) - 90;
 		
 		pos.x += vel.x * delta;
 		pos.y += vel.y * delta;
