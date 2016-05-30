@@ -11,10 +11,12 @@ public class ParticleManager {
 	private Random rand;
 	
 	private ArrayList<Particle> particles;
+	private ArrayList<Particle> particlesToRemove;
 	
 	public ParticleManager(){
 		rand = new Random();
 		particles = new ArrayList<Particle>();
+		particlesToRemove = new ArrayList<Particle>();
 	}
 	
 	public Particle addRandomParticle(int color, Camera cam){
@@ -38,6 +40,15 @@ public class ParticleManager {
 	public void update(float delta, Camera cam) {
 		for(Particle particle : particles){
 			particle.update(delta, cam);
+			
+			if(particle.health <= 0){
+				particlesToRemove.add(particle);
+			}
+		}
+		
+		if(!particlesToRemove.isEmpty()){
+			particles.removeAll(particlesToRemove);
+			particlesToRemove.clear();
 		}
 	}
 }

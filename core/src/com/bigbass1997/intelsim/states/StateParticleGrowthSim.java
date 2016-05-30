@@ -2,6 +2,7 @@ package com.bigbass1997.intelsim.states;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
@@ -10,7 +11,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.bigbass1997.intelsim.skins.SkinManager;
 import com.bigbass1997.intelsim.util.ScrollwheelInputAdapter;
 import com.bigbass1997.intelsim.world.World;
-import com.bigbass1997.intelsim.world.particlegrowth.Particle;
 import com.bigbass1997.intelsim.world.particlegrowth.ParticleManager;
 
 public class StateParticleGrowthSim extends State {
@@ -43,7 +43,7 @@ public class StateParticleGrowthSim extends State {
 		
 		particleManager = new ParticleManager();
 		
-		for(int i = 0; i < 500; i++){
+		for(int i = 0; i < 25; i++){
 			particleManager.addRandomParticle(0xFFFFFFFF, cam);
 		}
 		
@@ -67,6 +67,7 @@ public class StateParticleGrowthSim extends State {
 	@Override
 	public void render() {
 		sr.begin(ShapeType.Line);
+		sr.setColor(Color.WHITE);
 		sr.rect(0, 0, cam.viewportWidth, cam.viewportHeight);
 		
 		particleManager.render(sr);

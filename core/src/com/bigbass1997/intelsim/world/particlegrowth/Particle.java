@@ -29,6 +29,8 @@ public class Particle {
 	public Color color;
 	public SHAPE shape;
 	public boolean isMale;
+	public float health = 100;
+	public float hunger = 100;
 	
 	public float level = 5;
 	
@@ -68,6 +70,19 @@ public class Particle {
 			sr.setColor(Color.CYAN);
 			sr.line(pos.x, pos.y, pos.x, pos.y + level);
 		}
+
+		sr.setColor(Color.RED);
+		sr.rect(pos.x - ((level * 1.5f) / 2), pos.y + (level / 1.8f) + (level / 10) + 1, level * 1.5f, level / 10);
+		
+		sr.setColor(Color.GREEN);
+		sr.rect(pos.x - ((level * 1.5f) / 2), pos.y + (level / 1.8f) + (level / 10) + 1, level * 1.5f * (health / 100), level / 10);
+		
+
+		sr.setColor(Color.WHITE);
+		sr.rect(pos.x - ((level * 1.5f) / 2), pos.y + (level / 1.8f), level * 1.5f, level / 10);
+		
+		sr.setColor(Color.ORANGE);
+		sr.rect(pos.x - ((level * 1.5f) / 2), pos.y + (level / 1.8f), level * 1.5f * (hunger / 100), level / 10);
 		
 		sr.identity();
 	}
@@ -90,6 +105,14 @@ public class Particle {
 		}
 		if(pos.y > cam.viewportHeight && vel.y > 0){
 			pos.y = 0;
+		}
+		
+		hunger -= 3 * delta;
+		
+		if(hunger < 0){
+			hunger = 0;
+			
+			health -= 5 * delta;
 		}
 	}
 }
