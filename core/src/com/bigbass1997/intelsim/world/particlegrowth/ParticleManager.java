@@ -13,10 +13,14 @@ public class ParticleManager {
 	private ArrayList<Particle> particles;
 	private ArrayList<Particle> particlesToRemove;
 	
+	private ParticleCollisionDetectionThread colDetThread;
+	
 	public ParticleManager(){
 		rand = new Random();
 		particles = new ArrayList<Particle>();
 		particlesToRemove = new ArrayList<Particle>();
+		colDetThread = new ParticleCollisionDetectionThread(particles);
+		colDetThread.start();
 	}
 	
 	public Particle addRandomParticle(int color, Camera cam){

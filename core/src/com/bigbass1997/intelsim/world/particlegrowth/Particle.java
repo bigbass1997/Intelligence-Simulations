@@ -115,4 +115,8 @@ public class Particle {
 			health -= 5 * delta;
 		}
 	}
+	
+	public boolean intersects(Particle part){
+		return (part.pos.x > pos.x && part.pos.x < pos.x + level && part.pos.y > pos.y && part.pos.y < pos.y + level);
+	}
 }
