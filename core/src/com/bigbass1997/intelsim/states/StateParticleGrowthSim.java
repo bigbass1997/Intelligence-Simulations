@@ -19,7 +19,7 @@ public class StateParticleGrowthSim extends State {
 	
 	private Label infoLabel;
 
-	private float scalar = 0.5f;
+	private float scalar = 1.00000f;
 	
 	private ParticleManager particleManager;
 	
@@ -43,7 +43,7 @@ public class StateParticleGrowthSim extends State {
 		
 		particleManager = new ParticleManager();
 		
-		for(int i = 0; i < 25; i++){
+		for(int i = 0; i < 100; i++){
 			particleManager.addRandomParticle(0xFFFFFFFF, cam);
 		}
 		
@@ -84,7 +84,8 @@ public class StateParticleGrowthSim extends State {
 		String n = "\n";
 		String info = 
 				"Data:" + n +
-				"  FPS: " + Gdx.graphics.getFramesPerSecond();
+				"  FPS: " + Gdx.graphics.getFramesPerSecond() + n +
+				"  Scalar: " + scalar;
 		
 		infoLabel.setText(info);
 		infoLabel.setPosition(10, Gdx.graphics.getHeight() - (infoLabel.getPrefHeight() / 2) - 5);
