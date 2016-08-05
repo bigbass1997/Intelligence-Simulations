@@ -11,9 +11,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.bigbass1997.intelsim.skins.SkinManager;
 import com.bigbass1997.intelsim.util.ScrollwheelInputAdapter;
 import com.bigbass1997.intelsim.world.World;
-import com.bigbass1997.intelsim.world.particlegrowth.ParticleManager;
+import com.bigbass1997.intelsim.world.jointentitygrowth.JointEntityManager;
 
-public class StateParticleGrowthSim extends State {
+public class StateJointEntitySim extends State {
 
 	private ShapeRenderer sr;
 	
@@ -21,9 +21,9 @@ public class StateParticleGrowthSim extends State {
 
 	private float scalar = 1.00000f;
 	
-	private ParticleManager particleManager;
+	private JointEntityManager jointEntityManager;
 	
-	public StateParticleGrowthSim(String id, final StateManager managerRef){
+	public StateJointEntitySim(String id, final StateManager managerRef){
 		super(id, managerRef);
 		
 		cam = new OrthographicCamera(Gdx.graphics.getWidth() * scalar, Gdx.graphics.getHeight() * scalar);
@@ -41,10 +41,10 @@ public class StateParticleGrowthSim extends State {
 		sr.setAutoShapeType(true);
 		sr.setProjectionMatrix(cam.combined);
 		
-		particleManager = new ParticleManager();
+		jointEntityManager = new JointEntityManager();
 		
 		for(int i = 0; i < 100; i++){
-			particleManager.addRandomParticle(0xFFFFFFFF, cam);
+			jointEntityManager.addRandomJointEntity(0xFFFFFFFF, cam);
 		}
 		
 		InputMultiplexer multInput = new InputMultiplexer();
@@ -70,7 +70,7 @@ public class StateParticleGrowthSim extends State {
 		sr.setColor(Color.WHITE);
 		sr.rect(0, 0, cam.viewportWidth, cam.viewportHeight);
 		
-		particleManager.render(sr);
+		jointEntityManager.render(sr);
 		sr.end();
 		
 		world.render();
@@ -79,7 +79,7 @@ public class StateParticleGrowthSim extends State {
 	
 	@Override
 	public void update(float delta) {
-		particleManager.update(delta, cam);
+		jointEntityManager.update(delta, cam);
 		
 		String n = "\n";
 		String info = 
