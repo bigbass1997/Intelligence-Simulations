@@ -43,7 +43,7 @@ public class StateJointEntitySim extends State {
 		
 		jointEntityManager = new JointEntityManager();
 		
-		for(int i = 0; i < 100; i++){
+		for(int i = 0; i < 20; i++){ // Randomly create x number of Joint Entities
 			jointEntityManager.addRandomJointEntity(0xFFFFFFFF, cam);
 		}
 		

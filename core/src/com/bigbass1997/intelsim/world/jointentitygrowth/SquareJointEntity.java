@@ -40,11 +40,19 @@ public class SquareJointEntity extends JointEntity {
 			sr.setColor(0, 0, 1, 1);
 			sr.rectLine(pos.x, pos.y, pos.x, pos.y + (vel.y), 2);
 		}
+		
+		sr.setColor(Color.BLUE);
+		sr.rect(pos.x, pos.y, size, size);
+		
+		if(isColliding){
+			sr.setColor(Color.PINK);
+			sr.rect(pos.x, pos.y, size, size);
+		}
 	}
 	
 	@Override
 	public void update(float delta, Camera cam){
-		rotation = (MathUtils.atan2(vel.y, vel.x) * MathUtils.radiansToDegrees) - 90;
+		//rotation = (MathUtils.atan2(vel.y, vel.x) * MathUtils.radiansToDegrees) - 90;
 		
 		vel.x = MathUtilExtremes.closestToZero(vel.x, velMax.x);
 		vel.y = MathUtilExtremes.closestToZero(vel.y, velMax.y);

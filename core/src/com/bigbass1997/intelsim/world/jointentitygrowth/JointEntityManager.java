@@ -38,6 +38,16 @@ public class JointEntityManager {
 	public void update(float delta, Camera cam) {
 		for(JointEntity jointEntity : jointEntities){
 			jointEntity.update(delta, cam);
+			jointEntity.isColliding = false;
+			
+			for(JointEntity otherEntity : jointEntities){
+				if(!jointEntity.equalsJointEntity(otherEntity)){
+					if(jointEntity.intersects(otherEntity)){
+						
+						//later
+					}
+				}
+			}
 		}
 	}
 }
