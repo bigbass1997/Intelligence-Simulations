@@ -5,7 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.GL20;
-import com.bigbass1997.gdxfontmanager.FontManager;
+import com.bigbass1997.intelsim.fonts.FontManager;
 import com.bigbass1997.intelsim.ScreenshotFactory;
 import com.bigbass1997.intelsim.states.State;
 import com.bigbass1997.intelsim.states.StateMainMenu;

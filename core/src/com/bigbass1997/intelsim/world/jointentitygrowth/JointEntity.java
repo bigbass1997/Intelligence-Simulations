@@ -1,12 +1,15 @@
 package com.bigbass1997.intelsim.world.jointentitygrowth;
 
-import java.util.ArrayList;
-
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Container;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.bigbass1997.intelsim.skins.SkinManager;
+import com.bigbass1997.intelsim.world.jointentitygrowth.JointEntityList.EntitySide;
 
 public class JointEntity {
 	
@@ -20,18 +23,33 @@ public class JointEntity {
 	public Vector2 pos, vel, velMax;
 	public Color color;
 	
-	public float size = 50f;
+	public float size = 40f;
 	
-	public ArrayList<JointEntity> jointedEntities;
+	public JointEntityList jointList;
 	
-	public boolean isMaster = false;
+	protected Stage stage;
+	
+	protected Container<Label> idLabelWrapper;
+	private Label idLabel;
+	
 	
 	public JointEntity(float posX, float posY, float velX, float velY, int color){
 		this.pos = new Vector2(posX, posY);
 		this.vel = new Vector2(velX, velY);
 		this.color = new Color(color);
 		
-		jointedEntities = new ArrayList<JointEntity>();
+		jointList = new JointEntityList(this);
+
+		stage = new Stage();
+		
+		idLabel = new Label(id, SkinManager.getSkin("fonts/computer.ttf", 24));
+		idLabel.setColor(Color.GREEN);
+		idLabelWrapper = new Container<Label>(idLabel);
+		idLabelWrapper.setTransform(true);
+		idLabelWrapper.setOrigin(0, 0);
+		idLabelWrapper.setScale(1.5f);
+		
+		stage.addActor(idLabelWrapper);
 	}
 	
 	public void render(ShapeRenderer sr) {
@@ -47,7 +65,7 @@ public class JointEntity {
 		
 		sr.identity();
 	}
-	
+
 	public void update(float delta, Camera cam) {
 	}
 	
@@ -56,12 +74,8 @@ public class JointEntity {
 	 * 
 	 * @param entity other entity to adjoin to
 	 */
-	public void adjoinWithEntity(JointEntity entity){
-		if(jointedEntities.isEmpty()){
-			this.isMaster = true;
-			entity.isMaster = false;
-			jointedEntities.add(entity);
-		}
+	public void adjoinWithEntity(JointEntity entity, EntitySide side){
+		jointList.addEntity(entity, side);
 	}
 	
 	/**
