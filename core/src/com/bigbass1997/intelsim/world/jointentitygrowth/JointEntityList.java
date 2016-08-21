@@ -1,22 +1,11 @@
 package com.bigbass1997.intelsim.world.jointentitygrowth;
 
+import java.util.ArrayList;
+
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 public class JointEntityList {
-	
-	public static enum EntitySide {
-		TOP(0), BOTTOM(1), LEFT(2), RIGHT(3);
-		
-		private final int id;
-		EntitySide(int id){
-			this.id = id;
-		}
-		
-		public int getValue(){
-			return id;
-		}
-	}
 	
 	public JointEntity[] attachedEntities;
 	
@@ -24,6 +13,8 @@ public class JointEntityList {
 	
 	public JointEntityList(JointEntity parent){
 		attachedEntities = new JointEntity[4];
+		
+		this.parent = parent;
 	}
 	
 	public void render(ShapeRenderer sr){
@@ -34,24 +25,53 @@ public class JointEntityList {
 		}
 	}
 	
-	public void update(float delta, Camera cam){
+	public void update(float delta, Camera cam, ArrayList<JointEntity> otherEntities){
 		for(int i = 0; i < 4; i++){
-			if(attachedEntities[i] != null) attachedEntities[i].update(delta, cam);
-			switch(EntitySide.values()[i]){
-			case TOP:
-				if(attachedEntities[EntitySide.TOP.getValue()] != null) attachedEntities[EntitySide.TOP.getValue()].pos.set(parent.pos.x, parent.pos.y + parent.size);
+			if(attachedEntities[i] != null){
+				attachedEntities[i].update(delta, cam, otherEntities);
+			}
+			
+			updateSidePos(i);
+		}
+	}
+	
+	private void updateSidePos(int side){
+		JointEntity tmp = attachedEntities[side];
+		
+		if(tmp != null){
+			switch(side){
+			case EntitySide.TOP:
+				tmp.pos.set(parent.pos.x, parent.pos.y + parent.size);
 				break;
-			case BOTTOM:
+			case EntitySide.BOTTOM:
+				tmp.pos.set(parent.pos.x, parent.pos.y - tmp.size);
 				break;
-			case LEFT:
+			case EntitySide.LEFT:
+				tmp.pos.set(parent.pos.x - tmp.size, parent.pos.y);
 				break;
-			case RIGHT:
+			case EntitySide.RIGHT:
+				tmp.pos.set(parent.pos.x + parent.size, parent.pos.y);
 				break;
 			}
 		}
 	}
 
-	public void addEntity(JointEntity entity, EntitySide side) {
-		attachedEntities[side.getValue()] = entity;
+	public boolean addEntity(JointEntity entity, int side) {
+		if(attachedEntities[side] == null){
+			attachedEntities[side] = entity;
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	public ArrayList<JointEntity> getAllAttachedEntities(){
+		ArrayList<JointEntity> list = new ArrayList<JointEntity>();
+		for(int i = 0; i < 4; i++){
+			if(attachedEntities[i] != null){
+				list.add(attachedEntities[i]);
+			}
+		}
+		return list;
 	}
 }

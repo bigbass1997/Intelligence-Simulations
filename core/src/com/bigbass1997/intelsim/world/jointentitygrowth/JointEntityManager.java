@@ -5,13 +5,12 @@ import java.util.Random;
 
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.bigbass1997.intelsim.world.jointentitygrowth.JointEntityList.EntitySide;
 
 public class JointEntityManager {
 	
 	private Random rand;
 	
-	private ArrayList<JointEntity> jointEntities;
+	public ArrayList<JointEntity> jointEntities;
 	
 	public JointEntityManager(){
 		rand = new Random();
@@ -31,26 +30,14 @@ public class JointEntityManager {
 	}
 	
 	public void render(ShapeRenderer sr){
-		for(JointEntity jointEntity : jointEntities){
-			jointEntity.render(sr);
+		for(int i = jointEntities.size() - 1; i >= 0; i--){
+			jointEntities.get(i).render(sr);
 		}
 	}
 
 	public void update(float delta, Camera cam) {
 		for(int i = jointEntities.size() - 1; i >= 0; i--){
-			JointEntity jointEntity = jointEntities.get(i);
-			jointEntity.update(delta, cam);
-			jointEntity.isColliding = false;
-			
-			for(int j = jointEntities.size() - 1; j >= 0; j--){
-				JointEntity otherEntity = jointEntities.get(j);
-				if(!jointEntity.equalsJointEntity(otherEntity)){
-					if(jointEntity.intersects(otherEntity)){
-						jointEntity.adjoinWithEntity(otherEntity, EntitySide.TOP);
-						jointEntities.remove(j);
-					}
-				}
-			}
+			jointEntities.get(i).update(delta, cam, jointEntities);
 		}
 	}
 }

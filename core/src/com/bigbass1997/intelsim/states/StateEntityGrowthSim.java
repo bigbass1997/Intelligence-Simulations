@@ -10,11 +10,9 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.bigbass1997.intelsim.skins.SkinManager;
 import com.bigbass1997.intelsim.util.ScrollwheelInputAdapter;
-import com.bigbass1997.intelsim.world.World;
-import com.bigbass1997.intelsim.world.jointentitygrowth.JointEntityManager;
-import com.bigbass1997.intelsim.world.jointentitygrowth.SquareJointEntity;
+import com.bigbass1997.intelsim.world.entitygrowth.SquareManager;
 
-public class StateJointEntitySim extends State {
+public class StateEntityGrowthSim extends State {
 
 	private ShapeRenderer sr;
 	
@@ -22,17 +20,15 @@ public class StateJointEntitySim extends State {
 
 	private float scalar = 1.00000f;
 	
-	private JointEntityManager jointEntityManager;
+	private SquareManager squareManager;
 	
-	public StateJointEntitySim(String id, final StateManager managerRef){
+	public StateEntityGrowthSim(String id, final StateManager managerRef){
 		super(id, managerRef);
 		
 		cam = new OrthographicCamera(Gdx.graphics.getWidth() * scalar, Gdx.graphics.getHeight() * scalar);
 		cam.position.set(cam.viewportWidth / 2, cam.viewportHeight / 2, 0);
 		cam.update();
 		
-        world = new World(cam);
-        
 		stage = new Stage();
 		
 		infoLabel = new Label("", SkinManager.getSkin("fonts/computer.ttf", 24));
@@ -41,15 +37,6 @@ public class StateJointEntitySim extends State {
 		sr = new ShapeRenderer(50000);
 		sr.setAutoShapeType(true);
 		sr.setProjectionMatrix(cam.combined);
-		
-		jointEntityManager = new JointEntityManager();
-		
-		for(int i = 0; i < 10; i++){ // Randomly create x number of Joint Entities
-			jointEntityManager.addRandomJointEntity(0xFFFFFFFF, cam);
-		}
-		
-		jointEntityManager.jointEntities.get(0).jointList.attachedEntities[3] = new SquareJointEntity(0,0,0,0,0xFFFF00FF);
-		jointEntityManager.jointEntities.get(0).jointList.attachedEntities[3].jointList.attachedEntities[3] = new SquareJointEntity(0,0,0,0,0xFFFF00FF);
 		
 		InputMultiplexer multInput = new InputMultiplexer();
 		multInput.addProcessor(stage);
@@ -66,6 +53,12 @@ public class StateJointEntitySim extends State {
 		});
 		
 		Gdx.input.setInputProcessor(multInput);
+		
+		squareManager = new SquareManager();
+		
+		for(int i = 0; i < 50; i++){ // Randomly create x number of Joint Entities
+			squareManager.addRandomSquare(0xFFFFFFFF, cam);
+		}
 	}
 	
 	@Override
@@ -74,16 +67,16 @@ public class StateJointEntitySim extends State {
 		sr.setColor(Color.WHITE);
 		sr.rect(0, 0, cam.viewportWidth, cam.viewportHeight);
 		
-		jointEntityManager.render(sr);
+		squareManager.render(sr);
+		
 		sr.end();
 		
-		world.render();
 		stage.draw();
 	}
 	
 	@Override
 	public void update(float delta) {
-		jointEntityManager.update(delta, cam);
+		squareManager.update(delta, cam);
 		
 		String n = "\n";
 		String info = 
@@ -94,7 +87,6 @@ public class StateJointEntitySim extends State {
 		infoLabel.setText(info);
 		infoLabel.setPosition(10, Gdx.graphics.getHeight() - (infoLabel.getPrefHeight() / 2) - 5);
 		
-		world.update(delta);
 		stage.act(delta);
 	}
 	

@@ -1,5 +1,7 @@
 package com.bigbass1997.intelsim.world.jointentitygrowth;
 
+import java.util.ArrayList;
+
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -9,7 +11,6 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.bigbass1997.intelsim.skins.SkinManager;
-import com.bigbass1997.intelsim.world.jointentitygrowth.JointEntityList.EntitySide;
 
 public class JointEntity {
 	
@@ -23,7 +24,7 @@ public class JointEntity {
 	public Vector2 pos, vel, velMax;
 	public Color color;
 	
-	public float size = 40f;
+	public float size = 25f;
 	
 	public JointEntityList jointList;
 	
@@ -43,11 +44,11 @@ public class JointEntity {
 		stage = new Stage();
 		
 		idLabel = new Label(id, SkinManager.getSkin("fonts/computer.ttf", 24));
-		idLabel.setColor(Color.GREEN);
+		idLabel.setColor(Color.RED);
 		idLabelWrapper = new Container<Label>(idLabel);
 		idLabelWrapper.setTransform(true);
 		idLabelWrapper.setOrigin(0, 0);
-		idLabelWrapper.setScale(1.5f);
+		idLabelWrapper.setScale(0.75f);
 		
 		stage.addActor(idLabelWrapper);
 	}
@@ -66,7 +67,7 @@ public class JointEntity {
 		sr.identity();
 	}
 
-	public void update(float delta, Camera cam) {
+	public void update(float delta, Camera cam, ArrayList<JointEntity> otherEntities) {
 	}
 	
 	/**
@@ -74,8 +75,8 @@ public class JointEntity {
 	 * 
 	 * @param entity other entity to adjoin to
 	 */
-	public void adjoinWithEntity(JointEntity entity, EntitySide side){
-		jointList.addEntity(entity, side);
+	public boolean adjoinWithEntity(JointEntity entity, int side){
+		return jointList.addEntity(entity, side);
 	}
 	
 	/**
@@ -85,13 +86,38 @@ public class JointEntity {
 	 * @return true if passed entity intersects with this entity
 	 */
 	public boolean intersects(JointEntity entity){
-		if(entity.pos.x > pos.x + size || entity.pos.y > pos.y + size || pos.x > entity.pos.x + entity.size || pos.y > entity.pos.y + entity.size){
+		if(entity.pos.x > pos.x + size || entity.pos.y > pos.y + size || pos.x > entity.pos.x + entity.size || pos.y > entity.pos.y + entity.size || this.isChildOf(entity)){
 			return false;
 		}
 		
 		isColliding = true;
 		entity.isColliding = true;
 		return true;
+	}
+	
+	public boolean isChildOf(JointEntity parent){
+		return parent.jointList.getAllAttachedEntities().contains(this);
+	}
+	
+	public int onWhatSide(JointEntity entity){
+		Vector2 entCenter = entity.getCenter();
+		Vector2 thisCenter = getCenter();
+		
+		if(entCenter.x >= pos.x - (size / 2) && entCenter.x <= pos.x + size + (size / 2)){ // TOP or BOTTOM 
+			if(entCenter.y > thisCenter.y){ // TOP
+				return EntitySide.TOP;
+			} else if(entCenter.y <= thisCenter.y){ //BOTTOM
+				return EntitySide.BOTTOM;
+			}
+		} else if(entCenter.y >= pos.y - (size / 2) && entCenter.y <= pos.y + size + (size / 2)){ // LEFT or RIGHT
+			if(entCenter.x < thisCenter.x){ // LEFT
+				return EntitySide.LEFT;
+			} else if(entCenter.x >= thisCenter.x){ // RIGHT
+				return EntitySide.RIGHT;
+			}
+		}
+		
+		return -1;
 	}
 	
 	/**
@@ -125,6 +151,10 @@ public class JointEntity {
 	 */
 	public boolean equalsJointEntity(JointEntity entity) {
 		return (this.id.equals(entity.id));
+	}
+	
+	public Vector2 getCenter(){
+		return new Vector2(pos.x + (size / 2), pos.y + (size / 2));
 	}
 	
 	/**

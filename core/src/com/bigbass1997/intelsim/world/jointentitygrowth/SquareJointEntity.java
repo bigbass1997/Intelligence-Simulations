@@ -1,11 +1,14 @@
 package com.bigbass1997.intelsim.world.jointentitygrowth;
 
+import java.util.ArrayList;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Align;
 import com.bigbass1997.intelsim.util.MathUtilExtremes;
@@ -55,8 +58,8 @@ public class SquareJointEntity extends JointEntity {
 	}
 	
 	@Override
-	public void update(float delta, Camera cam){
-		//rotation = (MathUtils.atan2(vel.y, vel.x) * MathUtils.radiansToDegrees) - 90;
+	public void update(float delta, Camera cam, ArrayList<JointEntity> otherEntities){
+		rotation = (MathUtils.atan2(vel.y, vel.x) * MathUtils.radiansToDegrees) - 90;
 		rotation = 0;
 		
 		vel.x = MathUtilExtremes.closestToZero(vel.x, velMax.x);
@@ -82,7 +85,26 @@ public class SquareJointEntity extends JointEntity {
 		idLabelWrapper.setPosition(pos.x + (size/2), pos.y + (size/2), Align.center);
 		idLabelWrapper.setRotation(rotation);
 		stage.act(delta);
-
-		jointList.update(delta, cam);
+		
+		checkCollision(otherEntities);
+		
+		jointList.update(delta, cam, otherEntities);
+	}
+	
+	private void checkCollision(ArrayList<JointEntity> jointEntities){
+		for(int j = jointEntities.size() - 1; j >= 0; j--){
+			JointEntity otherEntity = jointEntities.get(j);
+			if(!this.equalsJointEntity(otherEntity)){
+				
+				if(this.intersects(otherEntity)){
+					System.out.println(this.id + " intersecting " + otherEntity.id);
+					if(this.adjoinWithEntity(otherEntity, this.onWhatSide(otherEntity))){
+						System.out.println("removing " + jointEntities.get(j).id);
+						jointEntities.remove(j);
+					}
+				}
+				
+			}
+		}
 	}
 }

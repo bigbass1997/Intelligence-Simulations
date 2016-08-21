@@ -51,10 +51,10 @@ public class StateMainMenu extends State {
 
         menu.row();
         
-        menu.add(new InvokableButton("Partical Growth Simulation", SkinManager.getSkin("fonts/computer.ttf", 24), (new Callable<Object>(){
+        menu.add(new InvokableButton("Entity Growth Simulation", SkinManager.getSkin("fonts/computer.ttf", 24), (new Callable<Object>(){
 			@Override
 			public Object call() throws Exception {
-				managerRef.setCurState(new StateJointEntitySim("ParticleGrowthSim1", managerRef));
+				managerRef.setCurState(new StateEntityGrowthSim("EntityGrowthSim1", managerRef));
 				return null;
 			}
 		}))).width(menu.getWidth()).height(36);
